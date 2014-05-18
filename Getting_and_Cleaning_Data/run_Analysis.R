@@ -1,6 +1,9 @@
+setwd("D:\\GitHub\\Coursera_DataScience\\Getting_and_Cleaning_Data\\UCI HAR Dataset")
+
+
 run_Analysis <- function() {
     require(stringr)
-    setwd("D:\\GitHub\\Coursera_DataScience\\Getting_and_Cleaning_Data\\UCI HAR Dataset")
+    require(data.table)
     
     #Read Features
     features <- read.table(file="features.txt",col.names=c("featureNumber","featureName"))
@@ -10,9 +13,6 @@ run_Analysis <- function() {
     
     #Read train, and then extract columns with mean and std in the name
     X_train <- read.table(file=".\\train\\X_train.txt",header=F)
-    #This isn't working because first columns is a space :(
-    #X_train <- fread(input=".\\train\\X_train.txt",header=F, sep=" ",skip>=1)
-    
     X_test <- read.table(file=".\\test\\X_test.txt",header=F)
     names(X_train) <- features$featureName
     names(X_test) <- features$featureName
@@ -47,17 +47,9 @@ run_Analysis <- function() {
     train_All <- cbind(subject_train,X_train,Y_train)
     test_All <- cbind(subject_test,X_test,Y_test)
     
-    data_Combined <- rbind(train_All,test_All)
-    
-    return(data_Combined)
-    #Consider removing unnecessary variables here
-    #rm(list=c())
+    data_Combined <- data.table(rbind(train_All,test_All))
+    tidy <- data[, lapply(.SD,mean), by="subject,Activity_Label"]
+    return(tidy)
+
 }
 
-makeTidy <- function(data) {
-  #Function to create a tidy data set using data.table package
-  require(data.table)
-  data <- data.table(data)
-  tidy <- data[, lapply(.SD,mean), by="subject,Activity_Label"]
-  return(tidy)
-}
