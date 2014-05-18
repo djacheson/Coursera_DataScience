@@ -1,6 +1,6 @@
 ##run_Analysis
 
-###This script reads in data from the UCI HAR Dataset, combines training and test sets, extracts variables with means and sds, merges the subject and label names (i.e., activity types), and finally, outputs a tidy dataset of means over each of the variables organized by activity type
+###This script reads in data from the UCI HAR Dataset, combines training and test sets, extracts variables with means and sds, merges the subject and label names (i.e., activity types), and finally, outputs a tidy dataset of means for each of the variables organized by subject and activity type
 
 ###The function "run_Analysis" is designed to be run from within the UCI HAR Dataset directory
 
