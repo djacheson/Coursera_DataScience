@@ -48,7 +48,7 @@ run_Analysis <- function() {
     test_All <- cbind(subject_test,X_test,Y_test)
     
     data_Combined <- data.table(rbind(train_All,test_All))
-    tidy <- data[, lapply(.SD,mean), by="subject,Activity_Label"]
+    tidy <- data_Combined[, lapply(.SD,mean), by="subject,Activity_Label"]
     return(tidy)
 
 }
