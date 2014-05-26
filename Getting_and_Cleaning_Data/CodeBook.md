@@ -1,22 +1,22 @@
-##Codebook for Human Activity Recognition Using Smartphones Data Set 
+###Codebook for Human Activity Recognition Using Smartphones Data Set 
 ====================================================================
 
-###This codebook is for a tidy dataset (tidy.txt) that includes subject IDs, activity labels, and various measures (mean and standard deviation) of various activity measurements of 30 participants wearing a smartphone (Samsung Galaxy SII) from the UCI Machine Learning Repository: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones  
+####This codebook is for a tidy dataset (tidy.txt) that includes subject IDs, activity labels, and various measures (mean and standard deviation) of various activity measurements of 30 participants wearing a smartphone (Samsung Galaxy SII) from the UCI Machine Learning Repository: http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones  
 
-###The description of the features from the UCI Repository is as follows:
+####The description of the features from the UCI Repository is as follows:
 
-####The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz.
+#####The features selected for this database come from the accelerometer and gyroscope 3-axial raw signals tAcc-XYZ and tGyro-XYZ. These time domain signals (prefix 't' to denote time) were captured at a constant rate of 50 Hz. Then they were filtered using a median filter and a 3rd order low pass Butterworth filter with a corner frequency of 20 Hz to remove noise. Similarly, the acceleration signal was then separated into body and gravity acceleration signals (tBodyAcc-XYZ and tGravityAcc-XYZ) using another low pass Butterworth filter with a corner frequency of 0.3 Hz.
 
-####Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).
+#####Subsequently, the body linear acceleration and angular velocity were derived in time to obtain Jerk signals (tBodyAccJerk-XYZ and tBodyGyroJerk-XYZ). Also the magnitude of these three-dimensional signals were calculated using the Euclidean norm (tBodyAccMag, tGravityAccMag, tBodyAccJerkMag, tBodyGyroMag, tBodyGyroJerkMag).
 
-####Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals).
+#####Finally a Fast Fourier Transform (FFT) was applied to some of these signals producing fBodyAcc-XYZ, fBodyAccJerk-XYZ, fBodyGyro-XYZ, fBodyAccJerkMag, fBodyGyroMag, fBodyGyroJerkMag. (Note the 'f' to indicate frequency domain signals).
 
 ================
 ###Tidy Dataset:
 ================
-###The measures were extracted from a larger dataset using the script makeTidy.R. The script combined training and test sets from the UCIDescriptions of the steps involved in creating this dataset are described in README.md.
+####The measures were extracted from a larger dataset using the script makeTidy.R. The script combined training and test sets from the UCIDescriptions of the steps involved in creating this dataset are described in README.md.
 
-###Below is a list of the variables included in the tidy dataset, a description for each, and the units of measurement (in parenthesis):
+####Below is a list of the variables included in the tidy dataset, a description for each, and the units of measurement (in parenthesis):
 
 1.  subject	ID of subject
 2.  Activity_Label	Text label of the activity the subject was performing (e.g., WALKING)
