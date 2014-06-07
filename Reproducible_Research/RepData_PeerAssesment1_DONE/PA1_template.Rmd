@@ -5,7 +5,7 @@
 ## Loading and preprocessing the data
 -----------
 Here, I just load the data. Any processing is done in a question specific manner below.
-```{r,echo=TRUE}
+```{r load_data,echo=TRUE}
 activity <- read.csv("activity.csv")
 
 ```
@@ -15,25 +15,26 @@ activity <- read.csv("activity.csv")
 ## What is mean total number of steps taken per day?
 -----------
 
-First, get the total number of steps per day using the plyr package:
-```{r, echo=TRUE}
+First, calculate the total number of steps per day using the plyr package:
+```{r steps_per_day, echo=TRUE}
 library(plyr)
 stepsPerDay <- ddply(activity,.(date), summarize, steps = sum(steps, na.rm=T))
 ```
 
 ### Histogram of the data
 ```{r Histogram_steps_original,echo=TRUE}
-hist(stepsPerDay$steps, breaks=20, main="Histogram of steps per day", xlab = "steps", ylab = "number of days")
+hist(stepsPerDay$steps, breaks=20, main="Histogram of steps per day", 
+     xlab = "steps", ylab = "number of days")
 ```
 
 ### Mean steps per day:
 
-```{r,echo=TRUE}
+```{r mean steps/Day,echo=TRUE}
 mean(stepsPerDay$steps, na.rm=T)
 ```
 
 ### Median steps per day:
-```{r,echo=TRUE}
+```{r median steps/Day,echo=TRUE}
 quantile(stepsPerDay$steps, 0.5, na.rm=T)
 ```
 
@@ -41,8 +42,8 @@ quantile(stepsPerDay$steps, 0.5, na.rm=T)
 ## What is the average daily activity pattern?
 -----------
 
-First, get the average daily activity pattern using the plyr package:
-```{r, echo=TRUE}
+First, calculate the average daily activity pattern using the plyr package:
+```{r stepsPerInterval, echo=TRUE}
 library(plyr)
 stepsPerInterval <- ddply(activity,.(interval), summarize, steps = mean(steps, na.rm=T))
 ```
@@ -54,7 +55,7 @@ with(stepsPerInterval,plot(x=interval,y=steps,type="l",xlab="5 minute interval n
 ```
 
 ### Which 5 minute interval has the most activity?
-```{r, echo=TRUE}
+```{r most active interval, echo=TRUE}
 which(stepsPerInterval$steps==max(stepsPerInterval$steps))
 ```
 
@@ -63,20 +64,22 @@ which(stepsPerInterval$steps==max(stepsPerInterval$steps))
 -----------
 
 ### Total number of NAs in the dataset
-```{r,echo=TRUE}
+```{r number of NAs,echo=TRUE}
 sum(is.na(activity$steps))
 ```
 
 ### Imputing the missing values using the mean number of steps per interval
-First, generate the mean number of steps per interval (as above):
-```{r, echo=TRUE}
+Missing values will be imputed based on the mean number of steps for a given interval in the day.   
+
+1. Generate the mean number of steps per interval (as above):
+```{r stepsPerInterval2, echo=TRUE}
 library(plyr)
 stepsPerInterval <- ddply(activity,.(interval), summarize, steps = mean(steps, na.rm=T))
 ```
 
-Using a loop, create a vector of imputed values. If an NA is found in steps, replace the value with the mean number of steps for that interval of the day.
+2. Using a loop, create a vector of imputed values. If an NA is found in steps, replace the value with the mean number of steps for that interval of the day.
 
-```{r, echo=TRUE, cache=TRUE}
+```{r stepsImpute_Loop, echo=TRUE, cache=TRUE}
 #create a list called stepsImpute, fill with NAs
 stepsImpute <- vector("list",nrow(activity))
 
@@ -89,18 +92,17 @@ for (row in seq(1:nrow(activity))) {
     stepsImpute[[row]] <- activity[row,]$steps
   }
 }
-
 ```
 
 ### Add the imputed data back into the original dataset
-```{r, echo=TRUE}
+```{r add stepsImputed, echo=TRUE}
 activity$stepsImputed <- unlist(stepsImpute)
 ```
 
 ### Histogram, mean and median of the imputed data
 Create a new dataframe with total steps per day using the imputed values:
 
-```{r, echo=TRUE}
+```{r stepsPerDay imputed, echo=TRUE}
 library(plyr)
 stepsPerDayImputed <- ddply(activity,.(date), summarize, steps = sum(stepsImputed, na.rm=T))
 ```
@@ -112,19 +114,19 @@ hist(stepsPerDayImputed$steps, breaks=20, main="Histogram of imputed steps per d
 
 #### Mean number of imputed steps per day:
 
-```{r,echo=TRUE}
+```{r mean steps/day imputed,echo=TRUE}
 mean(stepsPerDayImputed$steps, na.rm=T)
 ```
 
 #### Median imputed steps per day:
-```{r,echo=TRUE}
+```{r median steps/day imputed,echo=TRUE}
 quantile(stepsPerDayImputed$steps, 0.5, na.rm=T)
 ```
 
 #### Comparing to the non-imputed data
 As can be seen below, imputing missing steps by the mean number of steps per interval increases both the mean and median.
 
-```{r,echo=TRUE}
+```{r compare original and imputed,echo=TRUE}
 comparison <- data.frame(mean=c(mean(stepsPerDay$steps, na.rm=T),mean(stepsPerDayImputed$steps, na.rm=T)),median=c(quantile(stepsPerDay$steps, 0.5, na.rm=T),quantile(stepsPerDayImputed$steps, 0.5, na.rm=T)),row.names=c("original","imputed"))
 
 comparison
@@ -137,14 +139,14 @@ comparison
 * First, code which day of the week the date is in a variable called 'day'
 * Second, code whether it is the weekend or weekday in a variable called 'weekday'
 * Note: 'date' is converted from factor to POSIX using the lubridate package
-```{r, echo=TRUE}
+```{r add days of week, echo=TRUE}
 library(lubridate)
 activity$day <- weekdays(ymd(activity$date))
 activity$weekday <- as.factor(ifelse(activity$day %in% c("Saturday","Sunday"),"Weekend","Weekday"))
 ```  
 
 Now, create a new dataset coding the average steps per interval for weekends and weekdays
-```{r,echo=TRUE}
+```{r stepsPerInterval Weekdays/Weekends,echo=TRUE}
 stepsPerIntervalSplit <- ddply(activity, .(weekday,interval), summarize, steps = mean(stepsImputed))
 ```  
 

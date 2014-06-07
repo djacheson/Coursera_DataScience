@@ -15,7 +15,7 @@ activity <- read.csv("activity.csv")
 ## What is mean total number of steps taken per day?
 -----------
 
-First, get the total number of steps per day using the plyr package:
+First, calculate the total number of steps per day using the plyr package:
 
 ```r
 library(plyr)
@@ -25,7 +25,8 @@ stepsPerDay <- ddply(activity,.(date), summarize, steps = sum(steps, na.rm=T))
 ### Histogram of the data
 
 ```r
-hist(stepsPerDay$steps, breaks=20, main="Histogram of steps per day", xlab = "steps", ylab = "number of days")
+hist(stepsPerDay$steps, breaks=20, main="Histogram of steps per day", 
+     xlab = "steps", ylab = "number of days")
 ```
 
 ![plot of chunk Histogram_steps_original](figure/Histogram_steps_original.png) 
@@ -56,7 +57,7 @@ quantile(stepsPerDay$steps, 0.5, na.rm=T)
 ## What is the average daily activity pattern?
 -----------
 
-First, get the average daily activity pattern using the plyr package:
+First, calculate the average daily activity pattern using the plyr package:
 
 ```r
 library(plyr)
@@ -97,14 +98,16 @@ sum(is.na(activity$steps))
 ```
 
 ### Imputing the missing values using the mean number of steps per interval
-First, generate the mean number of steps per interval (as above):
+Missing values will be imputed based on the mean number of steps for a given interval in the day.   
+
+1. Generate the mean number of steps per interval (as above):
 
 ```r
 library(plyr)
 stepsPerInterval <- ddply(activity,.(interval), summarize, steps = mean(steps, na.rm=T))
 ```
 
-Using a loop, create a vector of imputed values. If an NA is found in steps, replace the value with the mean number of steps for that interval of the day.
+2. Using a loop, create a vector of imputed values. If an NA is found in steps, replace the value with the mean number of steps for that interval of the day.
 
 
 ```r
