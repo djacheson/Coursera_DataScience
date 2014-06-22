@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MPG Explorer</title>
+  <meta charset="utf-8">
+  <meta name="description" content="MPG Explorer">
+  <meta name="author" content="Dan Acheson">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>MPG Explorer</h1>
+    <h2>A shiny app for visualizing and quantifying influences on car fuel economy</h2>
+    <p>Dan Acheson<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h3>Ever wonder why some cars get better fuel economy?</h3>
+  </hgroup>
+  <article data-timings="">
+    <hr>
+
+<ul>
+<li>MPG Explorer let&#39;s you quickly visualize and analyze which features influence fuel economy.</li>
+<li>Just choose the variables you wish to explore using the dropdown menus, and MPG Explorer will automatically plot their influence on fuel economy and run a linear regression model!</li>
+</ul>
+
+<div style='text-align: center;'>
+    <img height='350' src='VariableSelect.png' />
+</div>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h3>The visualization varies depending on the input</h3>
+  </hgroup>
+  <article data-timings="">
+    <hr>
+
+<ul>
+<li>To help aid in visualization, MPG Explorer automatically adapts its output depending on the choice of features.</li>
+<li>For example, if you choose two categorical variables, MPG Explorer displays a bar plot with the average fuel economy as a function the chosen features.</li>
+</ul>
+
+<p><img src="figure/categorical_plot.png" title="plot of chunk categorical_plot" alt="plot of chunk categorical_plot" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h3>The visualization varies depending on the input</h3>
+  </hgroup>
+  <article data-timings="">
+    <hr>
+
+<p>If you choose at least one continuous variable, you will get a scatterplot </p>
+
+<p><img src="figure/continuous_plot.png" title="plot of chunk continuous_plot" alt="plot of chunk continuous_plot" style="display: block; margin: auto;" /></p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h3>Quantifying how different features inflence fuel economy</h3>
+  </hgroup>
+  <article data-timings="">
+    <hr>
+
+<p>MPG Explorer automatically quantifies the relationship between your chosen features and fuel economy using linear regression.</p>
+
+<pre><code>## 
+## Call:
+## lm(formula = as.formula(paste(&quot;Fuel.Economy ~&quot;, input$var1, &quot;*&quot;, 
+##     input$var2)), data = data)
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -13.72  -3.14  -0.39   2.48  24.63 
+## 
+## Coefficients:
+##                                     Estimate Std. Error t value Pr(&gt;|t|)
+## (Intercept)                          56.2034     1.3979   40.21  &lt; 2e-16
+## Engine.Displacement                  -5.8583     0.4041  -14.50  &lt; 2e-16
+## Number.of.Gears                      -1.1178     0.2625   -4.26  2.2e-05
+## Engine.Displacement:Number.of.Gears   0.2618     0.0731    3.58  0.00036
+##                                        
+## (Intercept)                         ***
+## Engine.Displacement                 ***
+## Number.of.Gears                     ***
+## Engine.Displacement:Number.of.Gears ***
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## Residual standard error: 4.59 on 1103 degrees of freedom
+## Multiple R-squared:  0.626,  Adjusted R-squared:  0.625 
+## F-statistic:  616 on 3 and 1103 DF,  p-value: &lt;2e-16
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Ever wonder why some cars get better fuel economy?'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='The visualization varies depending on the input'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='The visualization varies depending on the input'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Quantifying how different features inflence fuel economy'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>

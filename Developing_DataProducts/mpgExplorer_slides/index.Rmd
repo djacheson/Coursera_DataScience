@@ -1,0 +1,90 @@
+---
+title       : MPG Explorer
+subtitle    : A shiny app for visualizing and quantifying influences on car fuel economy
+author      : Dan Acheson
+job         : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : highlight.js  # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+### Ever wonder why some cars get better fuel economy?
+---------
+- MPG Explorer let's you quickly visualize and analyze which features influence fuel economy.
+- Just choose the variables you wish to explore using the dropdown menus, and MPG Explorer will automatically plot their influence on fuel economy and run a linear regression model!
+
+<div style='text-align: center;'>
+    <img height='350' src='VariableSelect.png' />
+</div>
+
+
+--- 
+
+### The visualization varies depending on the input
+---------
+- To help aid in visualization, MPG Explorer automatically adapts its output depending on the choice of features.
+- For example, if you choose two categorical variables, MPG Explorer displays a bar plot with the average fuel economy as a function the chosen features.
+
+``` {r categorical_plot, cache=TRUE, echo=FALSE, fig.width=10, fig.height=5, fig.align='center'}
+library(plyr)
+library(ggplot2)
+
+data <- readRDS('./cars2010.rds')
+input <- list()
+input$var1 <- 'Air.Aspiration.Method'
+input$var2 <- 'Drive.Description'
+
+ plotData <- ddply(data,c(input$var1,input$var2), summarize, Fuel.Economy = mean(Fuel.Economy))
+            
+ggplot(plotData,aes_string(y='Fuel.Economy',x=input$var1, fill=input$var2)) + 
+    geom_bar(stat='identity', position='dodge') +
+    scale_colour_brewer(palette="Set2") +
+    ylab("Fuel Economy (mpg)") + 
+    theme(
+        axis.text = element_text(size=14),
+        axis.title = element_text(size=16),
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=16))
+
+
+```
+
+---
+
+### The visualization varies depending on the input
+---------
+If you choose at least one continuous variable, you will get a scatterplot 
+
+``` {r continuous_plot, cache=TRUE, echo=FALSE,fig.width=10, fig.height=5, fig.align='center'}
+input$var1 <- 'Engine.Displacement'
+input$var2 <- 'Number.of.Gears'
+
+plotData <- data[,names(data) %in% c("Fuel.Economy",input$var1,input$var2)]
+
+ggplot(data,aes_string(y='Fuel.Economy',x=input$var1, color=input$var2)) + 
+    geom_point(size=3, position = 'jitter') + 
+    scale_colour_gradient(low="green",high='purple') +
+    ylab("Fuel Economy (mpg)") + 
+    theme(
+        axis.text = element_text(size=14),
+        axis.title = element_text(size=16),
+        legend.text = element_text(size=14),
+        legend.title = element_text(size=16))
+```
+
+---
+
+### Quantifying how different features inflence fuel economy
+---------
+MPG Explorer automatically quantifies the relationship between your chosen features and fuel economy using linear regression.
+```{r regression, echo=FALSE, cache=TRUE, results = 'markup'}
+model <- lm(as.formula(paste('Fuel.Economy ~', input$var1,'*',input$var2)), data = data)
+summary(model)        
+```
+
+
+
+
